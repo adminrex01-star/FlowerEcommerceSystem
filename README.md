@@ -57,18 +57,15 @@ spring:
     url: jdbc:mysql://localhost:3306/onlineflowershop?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
     username: root
     password: your_password  # 请修改为你自己的数据库密码
+    **导入方式（推荐使用 Navicat）：**
+1. 打开 Navicat，连接到本地 MySQL。
+2. 新建数据库 `onlineflowershop`，字符集选择 `utf8mb4`。
+3. 右键该数据库 -> 运行 SQL 文件 -> 选择项目根目录下的 `onlineflowershop.sql` -> 点击开始。
+4. 执行成功后，刷新即可看到所有表和初始数据。
 
-🐛 踩坑记录与改进方向
-拦截器权限：未登录用户访问 /cart 或 /orders 时，由 LoginInterceptor 自动重定向到 /login。管理员访问 /admin/** 时由 AdminInterceptor 二次校验。
-
-数据校验：前端负责非空与格式校验，后端使用注解进行二次校验（手机号、邮箱），保障数据合法性。
-
-已知改进点（未来规划）：
-
-购物车部分结算的 cartIds 向后传递待完整实现（目前已支持前端勾选，后端接收后处理）。
-
-密码目前为明文存储，未来计划引入 BCrypt 进行加密。
-
-商品图片目前仅支持静态路径，未来将增加动态上传功能。
-
-支付功能为模拟状态，未来计划对接真实支付网关。
+**命令行导入方式（备选）：**
+```bash
+mysql -u root -p
+CREATE DATABASE IF NOT EXISTS onlineflowershop;
+USE onlineflowershop;
+SOURCE /你的实际路径/onlineflowershop.sql;  -- 替换为实际路径
