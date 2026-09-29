@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录 - 网上花店</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #B9DA90 0%, #764ba2 100%); min-height:100vh; display:flex; justify-content:center; align-items:center; }
+        .login-container { background:white; border-radius:10px; padding:40px; width:400px; box-shadow:0 15px 35px rgba(0,0,0,0.2); }
+        h2 { text-align:center; color:#333; margin-bottom:30px; }
+        .form-group { margin-bottom:20px; }
+        label { display:block; margin-bottom:5px; color:#666; }
+        input { width:100%; padding:12px; border:1px solid #ddd; border-radius:5px; font-size:16px; }
+        button { width:100%; padding:12px; background:#B9DA90; color:white; border:none; border-radius:5px; font-size:16px; cursor:pointer; }
+        button:hover { background:#a5c87d; }
+        .error { color:#a5c87d; margin-bottom:15px; text-align:center; }
+        .link { text-align:center; margin-top:20px; }
+        .link a { color:#B9DA90; text-decoration:none; }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>网上花店登录</h2>
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+    <form th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label>用户名</label>
+            <input type="text" name="username" required>
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input type="password" name="password" required>
+        </div>
+        <button type="submit">登录</button>
+    </form>
+    <div class="link"><a th:href="@{/register}">还没有账号？立即注册</a></div>
+</div>
+</body>
+</html>

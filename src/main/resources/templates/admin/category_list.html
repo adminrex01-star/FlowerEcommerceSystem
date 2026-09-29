@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Microsoft YaHei';background:#f5f5f5;}   /* 改为浅灰色，与其他管理页面一致 */
+        .container{max-width:1000px;margin:20px auto;background:#ffffff;border-radius:10px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.05);}  /* 容器背景改为白色 */
+        table{width:100%;border-collapse:collapse;}
+        th,td{padding:12px;border-bottom:1px solid #E8DCC8;text-align:center;}
+        th{background:#B9DA90;color:#2c3e2b;}
+        .btn{padding:5px 12px;background:#B9DA90;color:#2c3e2b;text-decoration:none;border-radius:4px;margin:0 3px;display:inline-block;}
+        .btn-danger{background:#a5c87d;color:#2c3e2b;}
+        .btn-primary{background:#486441;color:white;}
+        .add-btn{margin-bottom:15px;display:inline-block;}
+        .pagination{margin-top:20px;text-align:center;}
+        .pagination a,.pagination span{display:inline-block;padding:6px 12px;margin:0 4px;border:1px solid #ddd;border-radius:4px;text-decoration:none;color:#486441;}
+        .pagination .current{background:#B9DA90;color:#2c3e2b;border-color:#B9DA90;}
+        .pagination a:hover{background:#f0f0f0;}
+        .page-size-select{float:right;margin-bottom:15px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>分类管理</h2>
+    <div style="margin-bottom:15px; overflow:auto;">
+        <div class="page-size-select">
+            <label>每页显示：</label>
+            <select onchange="window.location.href='/admin/categories?pageNum=1&pageSize='+this.value">
+                <option value="5" th:selected="${page.pageSize == 5}">5条</option>
+                <option value="10" th:selected="${page.pageSize == 10}">10条</option>
+                <option value="20" th:selected="${page.pageSize == 20}">20条</option>
+            </select>
+        </div>
+        <div>
+            <a th:href="@{/admin/category/add}" class="btn">新增分类</a>
+            <a th:href="@{/admin}" class="btn btn-primary">返回首页</a>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr><th>ID</th><th>分类名称</th><th>描述</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${page.list}">
+            <td th:text="${c.categoryId}">竹叶
+            <td th:text="${c.categoryName}">竹叶
+            <td th:text="${c.description}">竹叶
+            <td>
+                <a th:href="@{/admin/category/edit(id=${c.categoryId})}" class="btn">编辑</a>
+                <a th:href="@{/admin/category/delete(id=${c.categoryId})}" class="btn btn-danger" onclick="return confirm('确定删除？')">删除</a>
+            </td>
+        </tr>
+        <tr th:if="${page.list.empty}">
+            <td colspan="4" style="text-align:center;">暂无分类数据</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" th:if="${page.pages > 1}">
+        <a th:if="${page.hasPreviousPage}" th:href="@{/admin/categories(pageNum=${page.prePage}, pageSize=${page.pageSize})}">上一页</a>
+        <span th:each="num : ${#numbers.sequence(1, page.pages)}"
+              th:class="${num == page.pageNum} ? 'current' : ''"
+              th:text="${num}"
+              th:href="@{/admin/categories(pageNum=${num}, pageSize=${page.pageSize})}"></span>
+        <a th:if="${page.hasNextPage}" th:href="@{/admin/categories(pageNum=${page.nextPage}, pageSize=${page.pageSize})}">下一页</a>
+    </div>
+</div>
+</body>
+</html>

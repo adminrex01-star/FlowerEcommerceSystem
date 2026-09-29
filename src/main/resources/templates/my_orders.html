@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>我的订单</title><style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Microsoft YaHei';background:#f5f5f5;}
+    .container{max-width:1000px;margin:20px auto;background:white;border-radius:10px;padding:20px;}
+    .order-item{border:1px solid #eee;margin-bottom:15px;padding:15px;border-radius:8px;}
+    .order-header{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:10px;}
+    .status{padding:2px 8px;border-radius:4px;font-size:12px;}
+    .status-pending{background:#fef3c7;color:#d97706;}
+    .status-shipped{background:#dbeafe;color:#2563eb;}
+    .status-completed{background:#d1fae5;color:#059669;}
+    .status-cancelled{background:#fee2e2;color:#dc2626;}
+    .btn{padding:5px 12px;background:#B9DA90;color:white;text-decoration:none;border-radius:4px;font-size:12px;}
+    .pagination{text-align:center;margin-top:20px;}
+    .pagination a,.pagination span{display:inline-block;padding:5px 10px;margin:0 3px;border:1px solid #ddd;}
+</style></head>
+<body>
+<div class="container">
+    <h2>我的订单</h2>
+    <div th:each="order : ${page.list}" class="order-item">
+        <div class="order-header">
+            <span>订单号：<span th:text="${order.orderId}"></span></span>
+            <span>总金额：¥<span th:text="${order.totalPrice}"></span></span>
+            <span class="status" th:classappend="'status-' + ${order.orderStatus}" th:text="${order.orderStatus == 'pending' ? '待发货' : (order.orderStatus == 'shipped' ? '已发货' : (order.orderStatus == 'completed' ? '已完成' : '已取消'))}"></span>
+        </div>
+        <div th:each="item : ${order.items}">
+            <span th:text="${item.productName}"></span> x <span th:text="${item.num}"></span> = ¥<span th:text="${item.price * item.num}"></span>
+        </div>
+        <div style="margin-top:10px;">
+            <a th:href="@{/order/detail(orderId=${order.orderId})}" class="btn">查看详情</a>
+            <a th:if="${order.orderStatus == 'pending'}" th:href="@{/order/cancel(orderId=${order.orderId})}" class="btn" style="background:#a5c87d;">取消订单</a>
+        </div>
+    </div>
+    <div class="pagination" th:if="${page.pages > 1}">
+        <a th:if="${page.hasPreviousPage}" th:href="@{/orders(pageNum=${page.prePage})}">上一页</a>
+        <span th:each="num : ${#numbers.sequence(1, page.pages)}" th:class="${num == page.pageNum} ? 'current' : ''" th:text="${num}" th:href="@{/orders(pageNum=${num})}"></span>
+        <a th:if="${page.hasNextPage}" th:href="@{/orders(pageNum=${page.nextPage})}">下一页</a>
+    </div>
+    <div style="margin-bottom:20px;">
+        <a th:href="@{/}" class="btn">返回首页</a>
+    </div>
+</div>
+</body>
+</html>

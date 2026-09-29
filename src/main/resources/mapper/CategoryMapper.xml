@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flower.mapper.CategoryMapper">
+    <resultMap id="BaseResultMap" type="com.flower.po.Category">
+        <id column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="sort" property="sort"/>
+        <result column="description" property="description"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM category ORDER BY category_id ASC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM category WHERE category_id = #{categoryId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="categoryId">
+        INSERT INTO category (category_name, sort, description)
+        VALUES (#{categoryName}, #{sort}, #{description})
+    </insert>
+
+    <update id="update">
+        UPDATE category
+        SET category_name = #{categoryName}, sort = #{sort}, description = #{description}
+        WHERE category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM category WHERE category_id = #{categoryId}
+    </delete>
+    <select id="selectByPage" resultMap="BaseResultMap">
+        SELECT * FROM category ORDER BY category_id ASC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM category
+    </select>
+</mapper>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品管理</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Microsoft YaHei';background:#f5f5f5;}
+        .container{max-width:1200px;margin:20px auto;background:white;border-radius:10px;padding:20px;}
+        table{width:100%;border-collapse:collapse;}
+        th,td{padding:12px;border-bottom:1px solid #eee;text-align:center;}
+        th{background:#B9DA90;color:white;}
+        .btn{padding:5px 12px;background:#B9DA90;color:white;text-decoration:none;border-radius:4px;margin:0 3px;}
+        .btn-danger{background:#a5c87d;}
+        .add-btn{margin-bottom:15px;display:inline-block;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>商品管理</h2>
+    <div>
+        <a th:href="@{/admin/product/add}" class="btn add-btn">新增商品</a>
+        <a th:href="@{/admin/export}" class="btn">导出Excel</a>
+        <a th:href="@{/admin}" class="btn add-btn" style="background:#999;">返回首页</a>
+    </div>
+    <table>
+        <thead>
+        <tr><th>ID</th><th>商品名称</th><th>分类</th><th>价格</th><th>库存</th><th>状态</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${page.list}">
+            <td th:text="${p.productId}">竹叶
+            <td th:text="${p.productName}">竹叶
+            <td th:text="${p.categoryName}">竹叶
+            <td th:text="'¥' + ${p.price}">竹叶
+            <td th:text="${p.stock}">竹叶
+            <td th:text="${p.status == 1 ? '上架' : '下架'}">竹叶
+            <td>
+                <a th:href="@{/admin/product/edit(id=${p.productId})}" class="btn">编辑</a>
+                <a th:href="@{/admin/product/delete(id=${p.productId})}" class="btn btn-danger" onclick="return confirm('确定删除？')">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 分页代码略，保持原样 -->
+</div>
+</body>
+</html>

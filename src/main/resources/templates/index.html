@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>网上花店 - 首页</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background:#f5f5f5; }
+        .header { background:white; box-shadow:0 2px 5px rgba(0,0,0,0.1); padding:15px 0; }
+        .container { max-width:1200px; margin:0 auto; padding:0 15px; }
+        .header .container { display:flex; justify-content:space-between; align-items:center; }
+        .logo { font-size:24px; color:#B9DA90; font-weight:bold; }
+        .nav a { margin-left:20px; text-decoration:none; color:#333; }
+        .hero { background:linear-gradient(135deg, #B9DA90 0%, #764ba2 100%); color:white; padding:60px 0; text-align:center; }
+        .product-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:30px; padding:40px 0; }
+        .product-card { background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.1); transition:transform 0.3s; }
+        .product-card:hover { transform:translateY(-5px); }
+        .product-img { height:200px; background:#eee; display:flex; align-items:center; justify-content:center; font-size:50px; }
+        .product-info { padding:15px; }
+        .product-name { font-size:18px; font-weight:bold; margin-bottom:10px; }
+        .product-price { color:#a5c87d; font-size:20px; font-weight:bold; }
+        .btn { display:inline-block; padding:8px 20px; background:#B9DA90; color:white; text-decoration:none; border-radius:5px; margin-top:10px; border:none; cursor:pointer; font-size:14px; }
+        .pagination { text-align:center; margin:30px 0; }
+        .pagination a, .pagination span { display:inline-block; padding:8px 12px; margin:0 5px; border:1px solid #ddd; text-decoration:none; color:#333; }
+        .pagination .current { background:#B9DA90; color:white; border-color:#B9DA90; }
+        .filters { margin:20px 0; display:flex; gap:15px; align-items:center; }
+        .filters select, .filters input, .filters button { padding:8px 12px; border:1px solid #ddd; border-radius:5px; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <div class="logo">🌸 网上花店</div>
+        <div class="nav">
+            <span th:text="'欢迎，' + ${session.loginUser.realName != null ? session.loginUser.realName : session.loginUser.username}"></span>
+            <a th:href="@{/}">首页</a>
+            <a th:href="@{/cart}">购物车</a>
+            <a th:href="@{/orders}">我的订单</a>
+            <a th:href="@{/profile}">个人中心</a>
+            <a th:href="@{/logout}">退出</a>
+        </div>
+    </div>
+</div>
+<div class="hero"><div class="container"><h1>用心传递每一份心意</h1><p>新鲜花束，当日送达</p></div></div>
+<div class="container">
+    <div class="filters">
+        <form th:action="@{/}" method="get" style="display:flex; gap:10px;">
+            <input type="text" name="keyword" th:value="${keyword}" placeholder="搜索商品">
+            <select name="categoryId">
+                <option value="">全部分类</option>
+                <option th:each="c : ${categories}" th:value="${c.categoryId}" th:text="${c.categoryName}" th:selected="${categoryId == c.categoryId}"></option>
+            </select>
+            <button type="submit">筛选</button>
+        </form>
+    </div>
+    <div class="product-grid">
+        <div class="product-card" th:each="p : ${page.list}">
+            <div class="product-img">
+                <img th:src="@{${p.pic}}" alt="商品图片" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div class="product-info">
+                <div class="product-name" th:text="${p.productName}"></div>
+                <div class="product-price" th:text="'¥' + ${p.price}"></div>
+                <a th:href="@{/cart/add(productId=${p.productId})}" class="btn">加入购物车</a>
+                <a th:href="@{/product/detail(id=${p.productId})}" class="btn" style="background:#999;">详情</a>
+            </div>
+        </div>
+    </div>
+    <div class="pagination" th:if="${page.pages > 1}">
+        <a th:if="${page.hasPreviousPage}" th:href="@{/(pageNum=${page.prePage},keyword=${keyword},categoryId=${categoryId})}">上一页</a>
+        <span th:each="num : ${#numbers.sequence(1, page.pages)}" th:class="${num == page.pageNum} ? 'current' : ''" th:text="${num}" th:href="@{/(pageNum=${num},keyword=${keyword},categoryId=${categoryId})}"></span>
+        <a th:if="${page.hasNextPage}" th:href="@{/(pageNum=${page.nextPage},keyword=${keyword},categoryId=${categoryId})}">下一页</a>
+    </div>
+</div>
+</body>
+</html>

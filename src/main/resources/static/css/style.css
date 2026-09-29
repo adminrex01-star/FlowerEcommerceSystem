@@ -1,0 +1,132 @@
+/* 全局样式 - 第二次替换后 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #FDE5E5;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* 头部导航 */
+.header {
+    background: #FDE5E5;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #486441;
+}
+.logo span {
+    color: #B9DA90;
+}
+.nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #666;
+}
+.nav a:hover {
+    color: #486441;
+}
+
+/* 卡片、表格背景 */
+.card, .product-card, .admin-card, .cart-table, .order-item {
+    background-color: #FDE5E5;
+}
+
+/* 按钮 */
+.btn {
+    background: #B9DA90;
+    color: #2c3e2b;
+    border: none;
+    border-radius: 30px;
+    padding: 8px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+.btn:hover {
+    background: #a5c87d;
+}
+.btn-primary, .btn-home {
+    background: #486441;
+    color: white;
+}
+.btn-primary:hover, .btn-home:hover {
+    background: #3a5236;
+}
+.btn-danger {
+    background: #a5c87d;  /* 统一使用浅黄绿悬停色，也可保留红色，按需 */
+    color: #2c3e2b;
+}
+.btn-secondary {
+    background: #B9DA90;
+    color: #2c3e2b;
+}
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 12px;
+}
+
+/* 标签 */
+.tag, .category-tag {
+    background: #B9DA90;
+    color: #2c3e2b;
+    border-radius: 20px;
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+/* 表单 focus */
+.form-group input:focus {
+    border-color: #B9DA90;
+}
+
+/* 成功提示 */
+.success-msg {
+    color: #486441;
+}
+
+/* 分页 */
+.pagination a, .pagination span {
+    color: #486441;
+}
+.pagination .current {
+    background: #B9DA90;
+    color: #2c3e2b;
+    border-color: #B9DA90;
+}
+
+/* 商品价格 */
+.product-price {
+    color: #486441;
+}
+
+/* 购物车表头 */
+.cart-table th {
+    background: #B9DA90;
+    color: #2c3e2b;
+}
+
+/* 管理后台卡片按钮 */
+.admin-card .btn {
+    background: #486441;
+    color: white;
+}
