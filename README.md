@@ -9,7 +9,10 @@
 - **数据库**: MySQL 8.0.44
 - **数据导出**: Apache POI (XSSF)
 - **项目管理**: Maven 3.8+
-- **服务器**: 内置 Tomcat 9.0.74
+
+## 📚 详细设计文档
+- [数据库设计详细说明 (E-R图、表结构)](docs/database_design.md)
+- [系统架构与核心技术点](docs/architecture.md)
 
 ## ✨ 核心功能
 
@@ -25,19 +28,6 @@
 - **订单管理**：查看所有订单、发货、完成订单、删除订单。
 - **用户管理**：查看用户列表、新增、编辑、删除、修改用户角色。
 
-## 🏗️ 系统架构
-项目采用标准的四层架构设计：
-1. **Controller层**：接收请求，参数校验，返回视图或数据。
-2. **Service层**：核心业务逻辑处理，事务管理（`@Transactional`）。
-3. **Mapper层**：MyBatis 数据访问接口。
-4. **PO层**：实体类，映射数据库表。
-
-**核心亮点代码**：
-- `LoginInterceptor` / `AdminInterceptor`：基于 Session 的角色权限控制拦截器。
-- `PageResult<T>`：自定义分页结果封装工具，便于前端渲染分页导航。
-- **部分结算**：利用购物车 ID 列表（`cartIds`）实现灵活的购物车订单创建。
-- **Excel 导出**：通过 `AdminProductController` 结合 Apache POI 动态生成 `.xlsx` 文件流。
-
 ## 🚀 快速开始
 
 ### 1. 环境准备
@@ -45,19 +35,9 @@
 - 确保本地已安装 MySQL 管理工具（如 Navicat）。
 
 ### 2. 数据库初始化
-1. 新建一个 MySQL 数据库（例如 `onlineflowershop`）。
-2. 导入项目根目录下的 `onlineflowershop.sql` 文件。
-3. 代码默认内置了测试账号（如普通用户 `zhangshan` / `123456`，管理员 `admin` / `admin123`），可直接登录体验。
+本项目使用 MySQL 8.0.44，数据库名称为 `onlineflowershop`。
 
-### 3. 修改配置
-打开 `src/main/resources/application.yml` (或 `.properties`)，修改你的数据库连接信息：
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/onlineflowershop?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
-    username: root
-    password: your_password  # 请修改为你自己的数据库密码
-    **导入方式（推荐使用 Navicat）：**
+**导入方式（推荐使用 Navicat）：**
 1. 打开 Navicat，连接到本地 MySQL。
 2. 新建数据库 `onlineflowershop`，字符集选择 `utf8mb4`。
 3. 右键该数据库 -> 运行 SQL 文件 -> 选择项目根目录下的 `onlineflowershop.sql` -> 点击开始。
